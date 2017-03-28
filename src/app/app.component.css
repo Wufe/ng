@@ -1,0 +1,24 @@
+*{
+    border-radius: 2px !important;
+}
+
+.container{
+    font-family: 'Raleway';
+}
+
+header>h1{
+    color: navy;
+}
+
+.header{
+    margin-bottom: 20px;
+}
+
+.stage-item{
+    margin-left: 10px;
+}
+
+.list-group-item:hover{
+    box-shadow: inset 0px 0px 20px #DDD;
+    cursor: pointer;
+}
