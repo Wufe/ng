@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-type Stage = {
+interface Stage{
+	id: number;
 	done: boolean;
 	title: string;
 };
@@ -17,7 +18,7 @@ type Stage = {
 			<div class="row">
 				<div class="col-md-offset-1 col-md-10">
 					<ul class="list-group" *ngFor="let stage of stages">
-						<li class="well well-sm list-group-item">
+						<li class="well well-sm list-group-item" (click)="toggleStageDone(stage)">
 							<div>
 								<input type="checkbox" [checked]="stage.done" /> <span class="stage-item">{{ stage.title }}</span>
 							</div>
@@ -41,27 +42,51 @@ type Stage = {
 })
 export class AppComponent {
 	title = 'Test!';
-	color: string = "navy";
-	
+	color = 'navy';
+
 	stages: Stage[] = [
 		{
+			id: 1,
 			done: true,
-			title: "Folder Structure"
+			title: 'Folder Structure'
 		}
 	];
-	
-	stageInput = "";
-	
-	onEnter(){
-		console.log( this.stageInput );
-		this.stages = [
-			...this.stages,
-			{
-				done: false,
-				title: this.stageInput
+
+	stageInput = '';
+
+	getNextId(){
+		let max = -1;
+		this.stages.forEach(x => {
+			if( x.id > max ){
+				max = x.id;
 			}
-		];
-		this.stageInput = "";
+		});
+		return ++max;
 	}
-	
+
+	onEnter(){
+		const nextId = this.getNextId();
+		if(this.stageInput !== ''){
+			this.stages = [
+				...this.stages,
+				{
+					id: nextId,
+					done: false,
+					title: this.stageInput
+				}
+			];
+		}
+
+		this.stageInput = '';
+	}
+
+	toggleStageDone(stage: Stage){
+		this
+			.stages
+			.forEach(x => {
+				if(x.id === stage.id)
+					x.done = !x.done;
+			});
+	}
+
 }
